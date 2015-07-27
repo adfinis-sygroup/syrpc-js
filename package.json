@@ -18,8 +18,12 @@
   },
   "author": "Jean-Louis Fuchs <jean-louis.fuchs@adfinis-sygroup.ch>",
   "license": "LGPL-3.0",
-  "devDependencies": {
+  "dependencies": {
     "amq": "^0.4.8",
     "siphash": "^1.0.1"
+  },
+  "devDependencies": {
+    "mocha": ">2.2.5",
+    "istanbul": ">0.3.17"
   }
 }
