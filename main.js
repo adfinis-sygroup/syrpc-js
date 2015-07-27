@@ -1,5 +1,4 @@
+var server = require("./lib/server.js")
 module.exports = {
-  SyRPCServer: function() {
-    return "huhu"
-	}
+  SyRPCServer: server.SyRPCServer
 }

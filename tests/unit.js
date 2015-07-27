@@ -12,8 +12,8 @@ describe('Array', function() {
 describe('Basics', function() {
   describe('Create Server', function () {
     it('the server should have a get_request and a put_result method', function () {
-      server = syrpc.SyRPCServer()
-      assert.equal("huhu", server)
+      server = new syrpc.SyRPCServer()
+      assert.equal(typeof server.hello, "function")
     })
   })
 })

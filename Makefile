@@ -2,7 +2,7 @@ BIN=$(shell npm bin)
 SRCS=$(wildcard syrpc/*.js)
 OBJS=$(subst syrpc/,lib/,$(SRCS))
 
-all: lib $(OBJS) $(BIN)/babel
+all: lib $(BIN)/babel $(OBJS)
 
 $(BIN)/mocha:
 	npm install mocha
