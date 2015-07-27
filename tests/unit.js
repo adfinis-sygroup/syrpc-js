@@ -12,8 +12,14 @@ describe('Array', function() {
 describe('Basics', function() {
   describe('Create Server', function () {
     it('the server should have a get_request and a put_result method', function () {
-      server = new syrpc.SyRPCServer()
-      assert.equal(typeof server.hello, "function")
+      server = new syrpc.SyRPCServer({})
+      assert.equal(typeof server.get_hash, "function")
+    })
+  })
+  describe('Check hash function', function () {
+    it('the server should have a get_request and a put_result method', function () {
+      server = new syrpc.SyRPCServer({})
+      assert.equal(server.get_hash(), "Hello World")
     })
   })
 })

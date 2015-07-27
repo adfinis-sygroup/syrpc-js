@@ -10,8 +10,13 @@ $(BIN)/mocha:
 $(BIN)/babel:
 	npm install babel
 
-test: all $(BIN)/mocha
-	$(BIN)/mocha tests/unit.js
+$(BIN)/istanbul:
+	npm install istanbul
+
+test: all $(BIN)/mocha $(BIN)/istanbul
+	rm -rf coverage
+	$(BIN)/istanbul cover $(BIN)/_mocha tests/*.js
+	$(BIN)/istanbul report text
 
 lib:
 	mkdir -p lib

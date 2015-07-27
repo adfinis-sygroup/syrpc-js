@@ -1,7 +1,7 @@
 {
   "name": "syrpc",
   "version": "1.0.0",
-  "description": "Library to access and provide syrpc rabbitmq services",
+  "description": "Library to access and provide syrpc rabbitmq services.",
   "main": "main.js",
   "repository": {
     "type" : "git",
@@ -19,6 +19,7 @@
   "author": "Jean-Louis Fuchs <jean-louis.fuchs@adfinis-sygroup.ch>",
   "license": "LGPL-3.0",
   "devDependencies": {
-    "amq": "^0.4.8"
+    "amq": "^0.4.8",
+    "siphash": "^1.0.1"
   }
 }
