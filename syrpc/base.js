@@ -9,8 +9,8 @@ export class SyRPCBase {
   }
 
   get_hash(string) {
-    hash = siphash.hash(this.key, string)
-    res = hash.l & 0x7FFFFFFF
+    var hash = siphash.hash(this.key, string)
+    var res = hash.l & 0x7FFFFFFF
     return res % this.num_queues
   }
 }
