@@ -15,7 +15,7 @@ $(BIN)/istanbul:
 	npm install istanbul
 
 $(BASE)/siphash:
-	npm install .
+	npm install
 
 test: all $(BIN)/mocha $(BIN)/istanbul $(BASE)/siphash
 	rm -rf coverage
