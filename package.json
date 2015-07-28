@@ -19,7 +19,7 @@
   "author": "Jean-Louis Fuchs <jean-louis.fuchs@adfinis-sygroup.ch>",
   "license": "LGPL-3.0",
   "dependencies": {
-    "amq": "^0.4.8",
+    "amqplib": "^0.3.2",
     "siphash": "^1.0.1"
   }
 }

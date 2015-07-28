@@ -11,13 +11,12 @@ describe('Array', function() {
 
 describe('Basics', function() {
   describe('Create Server', function () {
-    it('the server should have a get_request and a put_result method', function () {
+    it('should have a get_request and a put_result method', function () {
       // TODO
       var server = new syrpc.SyRPCServer({})
       assert.equal(typeof server.get_hash, "function")
     })
-    it('pass the settings to instance', function () {
-      // TODO
+    it('should pass the settings to instance', function () {
       var server = new syrpc.SyRPCServer({
         app_name        : "1",
         amq_host        : "2",
@@ -40,6 +39,16 @@ describe('Basics', function() {
       assert.equal(server.msg_ttl, 8)
       assert.equal(server.num_queues, 9)
       assert.equal(server.msg_encoding, "10")
+    })
+    it('shoud create the url', function (done) {
+      var server = new syrpc.SyRPCServer({
+        app_name        : "syrpc",
+        amq_host        : "localhost",
+      })
+      server.init().then(function() {
+        assert.equal(server.url, "amqp://guest:guest@localhost:5672/")
+        done()
+      })
     })
   })
   describe('Check hash function', function () {

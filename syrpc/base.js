@@ -1,4 +1,5 @@
 var siphash = require("siphash")
+var amqp    = require('amqplib');
 var consts  = require("./consts")
 
 export class SyRPCBase {
@@ -31,12 +32,12 @@ export class SyRPCBase {
     if ('amq_user' in settings) {
       this.user = settings.amq_user
     } else {
-      this.user = null
+      this.user = "guest"
     }
     if ('amq_password' in settings) {
       this.password = settings.amq_password
     } else {
-      this.password = null
+      this.password = "guest"
     }
     if ('amq_transport' in settings) {
       this.transport = settings.amq_transport
@@ -64,6 +65,20 @@ export class SyRPCBase {
       this.msg_encoding = consts.ENCODING
     }
     this.key = siphash.string16_to_key(consts.HASH)
+  }
+
+  init() {
+    this.url = `amqp://${this.user}:${this.password}@${this.host}:5672${this.virtualhost}`
+    amqp.connect(this.url).then(function(conn) {
+      this.connection = conn
+      conn.createChannel().then(function(ch) {
+        this.channel = ch
+        when.all([
+          ch.assertExchange(`${this.app_name}_request`),
+          ch.assertExchange(`${this.app_name}_result_exchange`)
+        ]) 
+      })
+    })
   }
 
   get_hash(string) {
