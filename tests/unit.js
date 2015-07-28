@@ -48,6 +48,8 @@ describe('Basics', function() {
       server.init().then(function() {
         assert.equal(server.url, "amqp://guest:guest@localhost:5672/")
         done()
+      }).catch(function(e) {
+        throw e
       })
     })
   })

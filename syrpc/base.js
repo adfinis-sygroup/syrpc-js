@@ -69,16 +69,20 @@ export class SyRPCBase {
 
   init() {
     this.url = `amqp://${this.user}:${this.password}@${this.host}:5672${this.virtualhost}`
-    amqp.connect(this.url).then(function(conn) {
-      this.connection = conn
-      conn.createChannel().then(function(ch) {
+
+    return amqp.connect(this.url)
+      .then(conn => {
+        this.connection = conn
+        return conn.createChannel()
+      })
+      .then(ch => {
         this.channel = ch
-        when.all([
+
+        return Promise.all([
           ch.assertExchange(`${this.app_name}_request`),
           ch.assertExchange(`${this.app_name}_result_exchange`)
         ]) 
       })
-    })
   }
 
   get_hash(string) {
