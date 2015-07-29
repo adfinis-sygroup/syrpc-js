@@ -40,21 +40,39 @@ describe('Basics', function() {
       assert.equal(server.num_queues, 9)
       assert.equal(server.msg_encoding, "10")
     })
-    it('shoud create the url', function (done) {
+    it('should create the url and the exchanges', function (done) {
       var server = new syrpc.SyRPCServer({
         app_name        : "syrpc",
         amq_host        : "localhost",
       })
       server.init().then(function() {
-        assert.equal(server.url, "amqp://guest:guest@localhost:5672/")
+        assert.equal(server.url, "amqp://guest:guest@localhost:5672//")
+        assert.equal(server.request, "syrpc_request")
+        assert.equal(server.result_exchange, "syrpc_result_exchange")
         done()
       }).catch(function(e) {
-        throw e
+        done(e)
+      })
+    })
+  })
+  describe('Queues', function () {
+    it('should create and bind an result queue', function (done) {
+      var server = new syrpc.SyRPCServer({
+        app_name        : "syrpc",
+        amq_host        : "localhost",
+      })
+      server.init().then(function() {
+        return server.assert_result_queue(3)
+      }).then(function(queue) {
+        assert.equal(queue, "syrpc_result_queue_3")
+        done()
+      }).catch(function(e) {
+        done(e)
       })
     })
   })
   describe('Check hash function', function () {
-    it('the results should match those of the python and php implementation', function () {
+    it('should match those of the python and php implementation', function () {
       var server = new syrpc.SyRPCServer({})
       assert.equal(server.get_hash("huhu"), 34)
       assert.equal(server.get_hash("fasel"), 25)

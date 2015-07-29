@@ -65,11 +65,11 @@ export class SyRPCBase {
       this.msg_encoding = consts.ENCODING
     }
     this.key = siphash.string16_to_key(consts.HASH)
+    this.result_queues = {}
   }
 
   init() {
-    this.url = `amqp://${this.user}:${this.password}@${this.host}:5672${this.virtualhost}`
-
+    this.url = `amqp://${this.user}:${this.password}@${this.host}:5672/${this.virtualhost}`
     return amqp.connect(this.url)
       .then(conn => {
         this.connection = conn
@@ -78,11 +78,38 @@ export class SyRPCBase {
       .then(ch => {
         this.channel = ch
 
+        this.request = `${this.app_name}_request`
+        var req = this.request
+        this.result_exchange = `${this.app_name}_result_exchange`
         return Promise.all([
-          ch.assertExchange(`${this.app_name}_request`),
-          ch.assertExchange(`${this.app_name}_result_exchange`)
+          ch.assertExchange(req),
+          ch.assertQueue(req, {autoDelete: true}),
+          ch.bindQueue(req, req, req),
+          ch.assertExchange(this.result_exchange)
         ]) 
       })
+  }
+
+  assert_result_queue(index) {
+    if (index in this.result_queues) {
+      return new Promise(function(resolve, reject) {
+        resolve(this.result_queues[index])
+      })
+    } else {
+      var queue = `${this.app_name}_result_queue_${index}`
+      console.log("1")
+      return Promise.all([
+        this.channel.assertQueue(queue, {
+          messageTtl: this.msg_ttl * 1000,
+          expires: this.ttl * 1000
+        }),
+        this.channel.bindQueue(queue, this.result_exchange, String(index))
+      ]).then(none => {
+        console.log("2")
+        this.result_queues[index] = queue
+        return queue
+      })
+    }
   }
 
   get_hash(string) {
