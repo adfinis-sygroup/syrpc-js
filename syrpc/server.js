@@ -5,15 +5,11 @@ export class SyRPCServer extends base.SyRPCBase {
   get_request(timeout=null) {
     return new Promise((resolve, reject) => {
       if (timeout !==null) {
-        setTimeout(timeout, function() {
+        setTimeout(function() {
           reject("Timeout expired")
-        })
+        }, timeout)
       }
-      this.channel.consume(this.request).then(function(result) {
-        resolve(result)
-      }).catch(function(e) {
-        reject(e)
-      })
+      this.channel.consume(this.request).then(resolve, reject)
     })
   }
 }
