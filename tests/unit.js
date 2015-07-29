@@ -83,6 +83,19 @@ describe('Basics', function() {
         done(e)
       })
     })
+    it('should throw a timeout error', function (done) {
+      var server = new syrpc.SyRPCServer({
+        app_name        : "syrpc",
+        amq_host        : "localhost",
+      })
+      server.init().then(function() {
+        return server.get_request(10)
+      }).then(function(res) {
+        done()
+      }).catch(function(e) {
+        done(e)
+      })
+    })
   })
   describe('Check hash function', function () {
     it('should match those of the python and php implementation', function () {
