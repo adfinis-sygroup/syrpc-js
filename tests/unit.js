@@ -1,5 +1,7 @@
 var assert = require("assert")
-var syrpc = require("../main")
+var syrpc  = require("../main")
+var amqp   = require('amqplib');
+
 describe('Array', function() {
   describe('#indexOf()', function () {
     it('should return -1 when the value is not present', function () {
@@ -49,6 +51,12 @@ describe('Basics', function() {
         assert.equal(server.url, "amqp://guest:guest@localhost:5672//")
         assert.equal(server.request, "syrpc_request")
         assert.equal(server.result_exchange, "syrpc_result_exchange")
+        return Promise.all([
+          server.channel.checkExchange(server.request),
+          server.channel.checkQueue(server.request),
+          server.channel.checkExchange(server.result_exchange),
+        ])
+      }).then(function() {
         done()
       }).catch(function(e) {
         done(e)
@@ -62,6 +70,11 @@ describe('Basics', function() {
         amq_host        : "localhost",
       })
       server.init().then(function() {
+        return server.assert_result_queue(3)
+      }).then(function(queue) {
+        assert.equal(queue, "syrpc_result_queue_3")
+        return server.channel.checkQueue(queue)
+      }).then(function() {
         return server.assert_result_queue(3)
       }).then(function(queue) {
         assert.equal(queue, "syrpc_result_queue_3")

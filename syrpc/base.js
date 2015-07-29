@@ -92,12 +92,11 @@ export class SyRPCBase {
 
   assert_result_queue(index) {
     if (index in this.result_queues) {
-      return new Promise(function(resolve, reject) {
+      return new Promise((resolve, reject) => {
         resolve(this.result_queues[index])
       })
     } else {
       var queue = `${this.app_name}_result_queue_${index}`
-      console.log("1")
       return Promise.all([
         this.channel.assertQueue(queue, {
           messageTtl: this.msg_ttl * 1000,
@@ -105,7 +104,6 @@ export class SyRPCBase {
         }),
         this.channel.bindQueue(queue, this.result_exchange, String(index))
       ]).then(none => {
-        console.log("2")
         this.result_queues[index] = queue
         return queue
       })
