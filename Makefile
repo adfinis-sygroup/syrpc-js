@@ -21,7 +21,7 @@ $(BASE)/siphash:
 	npm install
 
 doc: $(BIN)/jsdoc all
-	$(BIN)/jsdoc -d docs -c jsdoc.json syrpc/server.js syrpc/client.js
+	$(BIN)/jsdoc -d docs -c jsdoc.json main.md syrpc/server.js syrpc/client.js
 
 test: all $(BIN)/mocha $(BIN)/istanbul $(BASE)/siphash
 	rm -rf coverage
