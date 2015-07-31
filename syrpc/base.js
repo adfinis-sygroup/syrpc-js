@@ -16,7 +16,6 @@ export class SyRPCBase {
    * amq_ttl         (optional) Time to live for queues
    * amq_msg_ttl     (optional) Time to live for messages
    * amq_num_queues  (optional) Number of queue (default 64)
-   * msg_encoding    (optional) Default utf-8 (currently ignored)
    *
    * @constructor
    * @param {settings} Settings object with fields  as above
@@ -58,11 +57,6 @@ export class SyRPCBase {
       this.num_queues = settings.amq_num_queues
     } else {
       this.num_queues = consts.NUM_QUEUES
-    }
-    if ('msg_encoding' in settings) {
-      this.msg_encoding = settings.msg_encoding
-    } else {
-      this.msg_encoding = consts.ENCODING
     }
     this.key = siphash.string16_to_key(consts.HASH)
     this.result_queues = {}
