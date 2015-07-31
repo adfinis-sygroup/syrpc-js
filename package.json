@@ -21,6 +21,7 @@
   "dependencies": {
     "amqplib": "^0.3.2",
     "siphash": "^1.0.1",
-	"node-uuid": "^1.4.3"
+	"node-uuid": "^1.4.3",
+	"debug": "^2.2.0"
   }
 }

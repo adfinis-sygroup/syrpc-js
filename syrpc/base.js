@@ -83,7 +83,7 @@ export class SyRPCBase {
         this.result_exchange = `${this.app_name}_result_exchange`
         return Promise.all([
           ch.assertExchange(req),
-          ch.assertQueue(req, {autoDelete: true}),
+          ch.assertQueue(req),
           ch.bindQueue(req, req, req),
           ch.assertExchange(this.result_exchange)
         ]) 
@@ -103,7 +103,7 @@ export class SyRPCBase {
           expires: this.ttl * 1000
         }),
         this.channel.bindQueue(queue, this.result_exchange, String(index))
-      ]).then(none => {
+      ]).then(() => {
         this.result_queues[index] = queue
         return queue
       })
