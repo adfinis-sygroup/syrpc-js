@@ -20,6 +20,7 @@
   "license": "LGPL-3.0",
   "dependencies": {
     "amqplib": "^0.3.2",
-    "siphash": "^1.0.1"
+    "siphash": "^1.0.1",
+	"node-uuid": "^1.4.3"
   }
 }

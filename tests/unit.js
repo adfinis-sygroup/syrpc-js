@@ -89,8 +89,37 @@ describe('Basics', function() {
         amq_host        : "localhost",
       })
       server.init().then(function() {
-        return server.get_request(10)
+        return server.get_request(1)
       }).then(function(res) {
+        done(new Error("We didn't get a timeout, but a result -> fail"))
+      }).catch(function(e) {
+        done()
+      })
+    })
+    it('should do a whole roundtrip', function (done) {
+      var result_id = null
+      var server = new syrpc.SyRPCServer({
+        app_name        : "syrpc",
+        amq_host        : "localhost",
+      })
+      var client = new syrpc.SyRPCClient({
+        app_name        : "syrpc",
+        amq_host        : "localhost",
+      })
+      client.init().then(function() {
+        result_id = client.put_request("test", { val: 3 })
+      })
+      server.init().then(function() {
+        return server.get_request()
+      }).then(function(msg) {
+        assert.equal(msg.type, "test")
+        assert.equal(msg.data.val, 3)
+        assert.equal(msg.result_id, result_id)
+        server.put_result(msg.result_id, { val: 4 })
+        return client.get_result(result_id)
+      }).then(function(msg) {
+        assert.equal(msg.result_id, result_id)
+        assert.equal(msg.data.val, 4)
         done()
       }).catch(function(e) {
         done(e)
