@@ -29,7 +29,6 @@ describe('Basics', function() {
         amq_ttl         : 7,
         amq_msg_ttl     : 8,
         amq_num_queues  : 9,
-        msg_encoding    : "10"
       })
       assert.equal(server.app_name, "1")
       assert.equal(server.host, "2")
@@ -40,7 +39,6 @@ describe('Basics', function() {
       assert.equal(server.ttl, 7)
       assert.equal(server.msg_ttl, 8)
       assert.equal(server.num_queues, 9)
-      assert.equal(server.msg_encoding, "10")
     })
     it('should create the url and the exchanges', function (done) {
       var server = new syrpc.SyRPCServer({

@@ -21,6 +21,7 @@ test: all $(BIN)/mocha $(BIN)/istanbul $(BASE)/siphash
 	rm -rf coverage
 	$(BIN)/istanbul cover $(BIN)/_mocha tests/*.js
 	$(BIN)/istanbul report text
+	$(BIN)/istanbul check-coverage --lines 95 --functions 95 --statements 83
 
 lib:
 	mkdir -p lib
