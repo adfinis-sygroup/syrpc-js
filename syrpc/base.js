@@ -4,21 +4,29 @@ var consts  = require("./consts")
 
 export class SyRPCBase {
   /**
-   * Creates the SyRPC class
+   * Creates the SyRPC object using the following settings:
    *
-   * app_name        (mandatory) Every server this the same app name
-   *                             must support the same request-types
-   * amq_host        (mandatory)
-   * amq_virtualhost (optional)
-   * amq_user        (optional)
-   * amq_password    (optional)
-   * amq_transport   (optional) Not supported with js
-   * amq_ttl         (optional) Time to live for queues
-   * amq_msg_ttl     (optional) Time to live for messages
-   * amq_num_queues  (optional) Number of queue (default 64)
+   * - app_name        (mandatory) Every server this the same app name
+   *   must support the same request-types
+   *
+   * - amq_host        (mandatory)
+   *
+   * - amq_virtualhost (optional)
+   *
+   * - amq_user        (optional)
+   *
+   * - amq_password    (optional)
+   *
+   * - amq_transport   (optional) Not supported with js
+   *
+   * - amq_ttl         (optional) Time to live for queues
+   *
+   * - amq_msg_ttl     (optional) Time to live for messages
+   *
+   * - amq_num_queues  (optional) Number of queue (default 64)
    *
    * @constructor
-   * @param {settings} Settings object with fields  as above
+   * @param {settings} Settings object with fields as above
    */
   constructor(settings) {
     this.app_name = settings.app_name

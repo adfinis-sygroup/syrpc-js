@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: SyRPCServer</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: SyRPCServer</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>SyRPCServer</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="SyRPCServer"><span class="type-signature"></span>new SyRPCServer<span class="signature">(Settings)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Creates the SyRPC server using the following settings:</p>
+<ul>
+<li><p>app_name        (mandatory) Every server this the same app name
+must support the same request-types</p>
+</li>
+<li><p>amq_host        (mandatory)</p>
+</li>
+<li><p>amq_virtualhost (optional)</p>
+</li>
+<li><p>amq_user        (optional)</p>
+</li>
+<li><p>amq_password    (optional)</p>
+</li>
+<li><p>amq_transport   (optional) Not supported with js</p>
+</li>
+<li><p>amq_ttl         (optional) Time to live for queues</p>
+</li>
+<li><p>amq_msg_ttl     (optional) Time to live for messages</p>
+</li>
+<li><p>amq_num_queues  (optional) Number of queue (default 64)</p>
+</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>Settings</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">settings</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>object with fields as above</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="get_request"><span class="type-signature"></span>get_request<span class="signature">(Timeout)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Wait for a request. Blocks until a request arrives or
+timeout has expired. If no request has arrived when timeout
+is expired get_request will reject.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>Timeout</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">timeout</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>after which get_request will reject the promise</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="put_result"><span class="type-signature"></span>put_result<span class="signature">(The, Result)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Puts a result to the AMQ result queue.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>The</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">result_id</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>result id received with get_request</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Result</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">data</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>to send to the client</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line74">line 74</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="SyRPCClient.html">SyRPCClient</a></li><li><a href="SyRPCServer.html">SyRPCServer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Fri Jul 31 2015 16:34:17 GMT+0000 (UTC)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
