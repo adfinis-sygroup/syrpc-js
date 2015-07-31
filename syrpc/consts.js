@@ -6,6 +6,5 @@ module.exports = {
     MSG_TTL              : 10,
     NUM_QUEUES           : 64,
     MSG_TYPE             : 'application/json',
-    HASH                 : "EdaeYa6eesh3ahSh",
-    NUM_QUEUES           : 64
+    HASH                 : "EdaeYa6eesh3ahSh"
 }
