@@ -7,24 +7,25 @@ export class SyRPCClient extends base.SyRPCBase {
     return new Promise((resolve, reject) => {
       var tag = null
       var hash_id = this.get_hash(result_id)
-      var result_queue = this.assert_result_queue(hash_id)
-      if (timeout !==null) {
-        setTimeout(function() {
-          reject(new Error("Timeout expired"))
-        }, timeout)
-        if (tag !== null) {
-          this.channel.cancel(tag).catch(reject)
+      this.assert_result_queue(hash_id).then(result_queue => {
+        if (timeout !==null) {
+          setTimeout(function() {
+            reject(new Error("Timeout expired"))
+          }, timeout)
+          if (tag !== null) {
+            this.channel.cancel(tag).catch(reject)
+          }
         }
-      }
-      tag = this.channel.consume(result_queue, msg => {
-        res = JSON.parse(msg.content)
-        if (res.result_id == result_id) {
-          resolve(res)
-          this.channel.cancel(msg.fields.consumerTag).catch(reject)
-        } else {
-          this.channel.reject(msg)
-        }
-      }).then(ret => { tag = ret.consumerTag }).catch(reject)
+        this.channel.consume(result_queue, msg => {
+          var res = JSON.parse(msg.content)
+          if (res.result_id == result_id) {
+            resolve(res)
+            this.channel.cancel(msg.fields.consumerTag).catch(reject)
+          } else {
+            this.channel.reject(msg)
+          }
+        }).then(ret => { tag = ret.consumerTag }).catch(reject)
+      })
     })
   }
 
