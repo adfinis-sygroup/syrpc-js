@@ -1,6 +1,6 @@
 {
   "name": "syrpc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Library to access and provide syrpc rabbitmq services.",
   "main": "main.js",
   "repository": {
