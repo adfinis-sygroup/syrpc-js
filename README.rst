@@ -7,6 +7,10 @@ syrpc-js
 
 SyRPC - RPC for stateless backends
 
+Install::
+
+   npm install syrpc
+
 Documentation_
 --------------
 
