@@ -13,10 +13,10 @@ describe('Array', function() {
 
 describe('Basics', function() {
   describe('Create Server', function () {
-    it('should have a get_request and a put_result method', function () {
+    it('should have a getRequest and a putResult method', function () {
       // TODO
       var server = new syrpc.SyRPCServer({})
-      assert.equal(typeof server.get_hash, "function")
+      assert.equal(typeof server.getHash, "function")
     })
     it('should pass the settings to instance', function () {
       var server = new syrpc.SyRPCServer({
@@ -68,12 +68,12 @@ describe('Basics', function() {
         amq_host        : "localhost",
       })
       server.init().then(function() {
-        return server.assert_result_queue(3)
+        return server.assertResultQueue(3)
       }).then(function(queue) {
         assert.equal(queue, "syrpc_result_queue_3")
         return server.channel.checkQueue(queue)
       }).then(function() {
-        return server.assert_result_queue(3)
+        return server.assertResultQueue(3)
       }).then(function(queue) {
         assert.equal(queue, "syrpc_result_queue_3")
         done()
@@ -87,7 +87,7 @@ describe('Basics', function() {
         amq_host        : "localhost",
       })
       server.init().then(function() {
-        return server.get_request(1)
+        return server.getRequest(1)
       }).then(function(res) {
         done(new Error("We didn't get a timeout, but a result -> fail"))
       }).catch(function(e) {
@@ -105,16 +105,16 @@ describe('Basics', function() {
         amq_host        : "localhost",
       })
       client.init().then(function() {
-        result_id = client.put_request("test", { val: 3 })
+        result_id = client.putRequest("test", { val: 3 })
       })
       server.init().then(function() {
-        return server.get_request()
+        return server.getRequest()
       }).then(function(msg) {
         assert.equal(msg.type, "test")
         assert.equal(msg.data.val, 3)
         assert.equal(msg.result_id, result_id)
-        server.put_result(msg.result_id, { val: 4 })
-        return client.get_result(result_id)
+        server.putResult(msg.result_id, { val: 4 })
+        return client.getResult(result_id)
       }).then(function(msg) {
         assert.equal(msg.result_id, result_id)
         assert.equal(msg.data.val, 4)
@@ -127,10 +127,10 @@ describe('Basics', function() {
   describe('Check hash function', function () {
     it('should match those of the python and php implementation', function () {
       var server = new syrpc.SyRPCServer({})
-      assert.equal(server.get_hash("huhu"), 34)
-      assert.equal(server.get_hash("fasel"), 25)
-      assert.equal(server.get_hash("huh\xc3\xbc"), 53)
-      assert.equal(server.get_hash("THX\xe2\x84\xa2"), 54)
+      assert.equal(server.getHash("huhu"), 34)
+      assert.equal(server.getHash("fasel"), 25)
+      assert.equal(server.getHash("huh\xc3\xbc"), 53)
+      assert.equal(server.getHash("THX\xe2\x84\xa2"), 54)
     })
   })
 })

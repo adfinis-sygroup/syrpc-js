@@ -39,13 +39,13 @@ export class SyRPCClient extends base.SyRPCBase {
    * timeout has expired.
    *
    * @param {result_d} Get the result for this result_id
-   * @param {timeout} Timeout after which get_result will reject the promise
+   * @param {timeout} Timeout after which getResult will reject the promise
    */
-  get_result(result_id, timeout=null) {
+  getResult(result_id, timeout=null) {
     return new Promise((resolve, reject) => {
       var tag = null
-      var hash_id = this.get_hash(result_id)
-      this.assert_result_queue(hash_id).then(result_queue => {
+      var hash_id = this.getHash(result_id)
+      this.assertResultQueue(hash_id).then(result_queue => {
         if (timeout !==null) {
           setTimeout(() => {
             debug(`Client: Timeout on ${result_queue}`)
@@ -85,7 +85,7 @@ export class SyRPCClient extends base.SyRPCBase {
    *               that should be called.
    * @param {data} Data sent to the server.
    */
-  put_request(type, data) {
+  putRequest(type, data) {
     var result_id = uuid.v4()
     debug(`Client: Publishing request on ${this.request}`)
     this.channel.publish(

@@ -92,7 +92,7 @@ export class SyRPCBase {
       })
   }
 
-  assert_result_queue(index) {
+  assertResultQueue(index) {
     if (index in this.result_queues) {
       return new Promise((resolve, reject) => {
         resolve(this.result_queues[index])
@@ -112,7 +112,7 @@ export class SyRPCBase {
     }
   }
 
-  get_hash(string) {
+  getHash(string) {
     var hash = siphash.hash(this.key, string)
     var res = hash.l & 0x7FFFFFFF
     return res % this.num_queues

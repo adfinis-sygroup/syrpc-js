@@ -34,11 +34,11 @@ export class SyRPCServer extends base.SyRPCBase {
   /**
    * Wait for a request. Blocks until a request arrives or
    * timeout has expired. If no request has arrived when timeout
-   * is expired get_request will reject.
+   * is expired getRequest will reject.
    *
    * @param {timeout} Timeout after which get_request will reject the promise
    */
-  get_request(timeout=null) {
+  getRequest(timeout=null) {
     return new Promise((resolve, reject) => {
       if (timeout !== null) {
         setTimeout(() => {
@@ -68,12 +68,12 @@ export class SyRPCServer extends base.SyRPCBase {
   /**
    * Puts a result to the AMQ result queue.
    *
-   * @param {result_id} The result id received with get_request
+   * @param {result_id} The result id received with getRequest
    * @param {data} Result to send to the client
    */
-  put_result(result_id, data) {
-    var hash_id = this.get_hash(result_id)
-    this.assert_result_queue(hash_id).then(result_queue => {
+  putResult(result_id, data) {
+    var hash_id = this.getHash(result_id)
+    this.assertResultQueue(hash_id).then(result_queue => {
       debug(`Server: Publishing request on ${result_queue}`)
       this.channel.publish(
         this.result_exchange,
