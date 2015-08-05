@@ -20,7 +20,10 @@ $(BIN)/jsdoc:
 $(BASE)/siphash:
 	npm install
 
-doc: $(BIN)/jsdoc all
+README.md: README.rst
+	pandoc README.rst -o README.md
+
+doc: $(BIN)/jsdoc README.md all
 	$(BIN)/jsdoc -d docs -c jsdoc.json main.md syrpc/server.js syrpc/client.js
 
 test: all $(BIN)/mocha $(BIN)/istanbul $(BASE)/siphash
