@@ -13,24 +13,32 @@ function getSettings() {
 }
 
 function serveOne(rpcServer) {
-  rpcServer.getRequest().then(msg => {
+  return rpcServer.getRequest().then(msg => {
     debug(`Server: Got request ${msg.result_id}`)
     rpcServer.putResult(msg.result_id, msg.data)
     debug(`Server: Put result ${msg.result_id}`)
+  }).catch(err => {
+    debug(err)
+  })
+}
+
+function runForForever(rpcServer) {
+  return serveOne(rpcServer).then(() => {
+    runForForever(rpcServer)
   })
 }
 
 export function runServer(forever=false) {
   var settings = getSettings()
   var rpcServer = new server.SyRPCServer(settings)
-  if (forever) {
-    while (true) {
+  rpcServer.init().then(() => {
+    if (forever) {
+      runForForever(rpcServer)
+    }
+    else {
       serveOne(rpcServer)
     }
-  }
-  else {
-    serveOne(rpcServer)
-  }
+  })
 }
 
 export function runServerForever() {

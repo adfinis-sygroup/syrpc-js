@@ -79,13 +79,13 @@ export class SyRPCServer extends base.SyRPCBase {
         this.result_exchange,
         String(hash_id),
         new Buffer(JSON.stringify({
-          'result_id': result_id,
-          'data': data
+          'result_id':        result_id,
+          'data':             data
         })),
-        { headers: {
+        {
           contentType: consts.MSG_TYPE,
-          contentEncoding: this.encoding
-        }}
+          contentEncoding: this.encoding,
+        }
       )
     })
   }
