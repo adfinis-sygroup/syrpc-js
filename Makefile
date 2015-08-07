@@ -28,7 +28,7 @@ doc: $(BIN)/jsdoc README.md all
 
 test: all $(BIN)/mocha $(BIN)/istanbul $(BASE)/siphash
 	rm -rf coverage
-	$(BIN)/istanbul cover $(BIN)/_mocha tests/*.js
+	$(BIN)/istanbul cover -x lib/runner.js $(BIN)/_mocha tests/*.js
 	$(BIN)/istanbul report text
 	$(BIN)/istanbul check-coverage --lines 95 --functions 95 --statements 83
 
