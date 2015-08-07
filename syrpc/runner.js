@@ -1,6 +1,7 @@
-var server    = require('./server')
-var client    = require('./client')
-var debug     = require('debug')('syrpc')
+var assert = require("assert")
+var server = require('./server')
+var client = require('./client')
+var debug  = require('debug')('syrpc')
 
 function getSettings() {
   return {
@@ -43,4 +44,22 @@ export function runServer(forever=false) {
 
 export function runServerForever() {
   return runServer(true)
+}
+
+export function runClient() {
+  var settings = getSettings()
+  var rpcClient = new client.SyRPCClient(settings)
+  var type = 'echo'
+  var data = [{'foo': 'bar'}, {'baz': 9001}]
+  rpcClient.init().then(() => {
+    var resultId = rpcClient.putRequest(type, data)
+    return rpcClient.getResult(resultId)
+  }).then(msg => {
+    assert.equal(msg.data[0].foo, data[0].foo)
+    assert.equal(msg.data[1].baz, data[1].baz)
+    process.exit(0)
+  }).catch(err => {
+    debug('Wrong answer from echo server ', err)
+    process.exit(1)
+  })
 }

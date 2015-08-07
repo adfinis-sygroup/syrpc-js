@@ -6,4 +6,5 @@ module.exports = {
   SyRPCClient:      client.SyRPCClient,
   runServer:        runner.runServer,
   runServerForever: runner.runServerForever,
+  runClient:        runner.runClient
 }

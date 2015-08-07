@@ -96,10 +96,10 @@ export class SyRPCClient extends base.SyRPCBase {
         'type': type,
         'data': data
       })),
-      { headers: {
+      {
         contentType: consts.MSG_TYPE,
-        contentEncoding: this.encoding
-      }}
+        contentEncoding: this.encoding,
+      }
     )
     return result_id
   }
