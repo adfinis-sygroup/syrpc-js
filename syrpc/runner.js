@@ -1,9 +1,6 @@
-var syrpc  = require("../main")
-var debug = require('debug')('syrpc')
-
-function setupLogger() {
-  debug.enable('syrpc')
-}
+var server    = require('./server')
+var client    = require('./client')
+var debug     = require('debug')('syrpc')
 
 function getSettings() {
   return {
@@ -23,10 +20,9 @@ function serveOne(rpcServer) {
   })
 }
 
-function runServer(forever=false) {
+export function runServer(forever=false) {
   var settings = getSettings()
-  setupLogger()
-  var rpcServer = syrpc.SyRPCServer(settings)
+  var rpcServer = new server.SyRPCServer(settings)
   if (forever) {
     while (true) {
       serveOne(rpcServer)
@@ -35,4 +31,8 @@ function runServer(forever=false) {
   else {
     serveOne(rpcServer)
   }
+}
+
+export function runServerForever() {
+  return runServer(true)
 }
