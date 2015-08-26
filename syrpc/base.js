@@ -76,6 +76,10 @@ export class SyRPCBase {
     this.key = siphash.string16_to_key(consts.HASH)
     this.result_queues = {}
     this.encoding = consts.ENCODING
+    this.connection = null
+    this.channel = null
+    this.request = null
+    this.result_exchange = null
   }
 
   init() {
