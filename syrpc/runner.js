@@ -30,8 +30,8 @@ function runForForever(rpcServer) {
 }
 
 export function runServer(forever = false) {
-  var settings = getSettings()
-  var rpcServer = new server.SyRPCServer(settings)
+  let settings = getSettings()
+  let rpcServer = new server.SyRPCServer(settings)
   rpcServer.init().then(() => {
     if (forever) {
       runForForever(rpcServer)
@@ -47,12 +47,12 @@ export function runServerForever() {
 }
 
 export function runClient() {
-  var settings = getSettings()
-  var rpcClient = new client.SyRPCClient(settings)
-  var type = 'echo'
-  var data = [{'foo': 'bar'}, {'baz': 9001}]
+  let settings = getSettings()
+  let rpcClient = new client.SyRPCClient(settings)
+  let type = 'echo'
+  let data = [{'foo': 'bar'}, {'baz': 9001}]
   rpcClient.init().then(() => {
-    var resultId = rpcClient.putRequest(type, data)
+    let resultId = rpcClient.putRequest(type, data)
     return rpcClient.getResult(resultId)
   }).then(msg => {
     assert.equal(msg.data[0].foo, data[0].foo)

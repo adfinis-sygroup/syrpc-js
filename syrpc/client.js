@@ -58,7 +58,7 @@ export class SyRPCClient extends base.SyRPCBase {
         debug(`Client: Listening for result ${result_id} on ${result_queue}`)
 
         this.channel.consume(result_queue, msg => {
-          var res = JSON.parse(msg.content)
+          let res = JSON.parse(msg.content)
           debug(`Client: Got result ${res.result_id} on ${result_queue} `)
           if (res.result_id == result_id) {
             debug(`Client: Verified result on ${result_queue}`)
@@ -92,7 +92,7 @@ export class SyRPCClient extends base.SyRPCBase {
    * @return {string}
    */
   putRequest(type, data) {
-    var result_id = uuid.v4()
+    let result_id = uuid.v4()
     debug(`Client: Publishing request on ${this.request}`)
     this.channel.publish(
       this.request,

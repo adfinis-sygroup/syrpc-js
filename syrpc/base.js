@@ -126,8 +126,8 @@ export class SyRPCBase {
   }
 
   getHash(string) {
-    var hash = siphash.hash(this.key, string)
-    var res = hash.l & 0x7FFFFFFF
+    let hash = siphash.hash(this.key, string)
+    let res = hash.l & 0x7FFFFFFF
     return res % this.num_queues
   }
 }

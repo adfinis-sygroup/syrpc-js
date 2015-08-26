@@ -75,7 +75,7 @@ export class SyRPCServer extends base.SyRPCBase {
    * @return {Promise}
    */
   putResult(result_id, data) {
-    var hash_id = this.getHash(result_id)
+    let hash_id = this.getHash(result_id)
     this.assertResultQueue(hash_id).then(result_queue => {
       debug(`Server: Publishing request on ${result_queue}`)
       this.channel.publish(
