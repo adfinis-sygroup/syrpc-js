@@ -3,22 +3,7 @@ BASE=$(subst .bin,,$(BIN))
 SRCS=$(wildcard syrpc/*.js)
 OBJS=$(subst syrpc/,lib/,$(SRCS))
 
-all: lib $(BIN)/babel $(OBJS)
-
-$(BIN)/mocha:
-	npm install mocha
-
-$(BIN)/babel:
-	npm install babel
-
-$(BIN)/istanbul:
-	npm install istanbul
-
-$(BIN)/jsdoc:
-	npm install https://github.com/jsdoc3/jsdoc
-
-$(BASE)/siphash:
-	npm install
+all: lib install $(OBJS)
 
 README.md: README.rst
 	pandoc README.rst -o README.md
@@ -26,7 +11,10 @@ README.md: README.rst
 doc: $(BIN)/jsdoc README.md all
 	$(BIN)/jsdoc -d docs -c jsdoc.json main.md syrpc/server.js syrpc/client.js
 
-test: all $(BIN)/mocha $(BIN)/istanbul $(BASE)/siphash
+install:
+	npm install
+
+test: all
 	rm -rf coverage
 	$(BIN)/istanbul cover -x lib/runner.js $(BIN)/_mocha tests/*.js
 	$(BIN)/istanbul report text
