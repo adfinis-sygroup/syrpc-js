@@ -1,6 +1,6 @@
 var consts = require('./consts.js')
-var base = require('./base.js')
-var uuid = require('node-uuid')
+var base   = require('./base.js')
+var uuid   = require('node-uuid')
 
 var debug = require('debug')('syrpc')
 
@@ -97,11 +97,7 @@ export class SyRPCClient extends base.SyRPCBase {
     this.channel.publish(
       this.request,
       this.request,
-      new Buffer(JSON.stringify({
-        'result_id': result_id,
-        'type': type,
-        'data': data
-      })),
+      new Buffer(JSON.stringify({ result_id, type, data })),
       {
         contentType: consts.MSG_TYPE,
         contentEncoding: this.encoding

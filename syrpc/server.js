@@ -81,10 +81,7 @@ export class SyRPCServer extends base.SyRPCBase {
       this.channel.publish(
         this.result_exchange,
         String(hash_id),
-        new Buffer(JSON.stringify({
-          'result_id':        result_id,
-          'data':             data
-        })),
+        new Buffer(JSON.stringify({ result_id, data })),
         {
           contentType: consts.MSG_TYPE,
           contentEncoding: this.encoding
