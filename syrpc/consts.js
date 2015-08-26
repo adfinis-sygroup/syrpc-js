@@ -1,5 +1,5 @@
 
-module.exports = {
+export default {
   APP_NAME             : 'syrpc',
   VIRTUALHOST          : '/',
   TTL                  : 3 * 60 * 60,  /* 3 hours */

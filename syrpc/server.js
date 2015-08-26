@@ -1,8 +1,9 @@
-var consts = require('./consts.js')
-var base   = require('./base.js')
-var debug  = require('debug')('syrpc')
+import SyRPCBase from './base.js'
+import { MSG_TYPE } from './consts.js'
 
-export class SyRPCServer extends base.SyRPCBase {
+const debug = require('debug')('syrpc')
+
+export default class SyRPCServer extends SyRPCBase {
   /**
    * Creates the SyRPC server using the following settings:
    *
@@ -83,7 +84,7 @@ export class SyRPCServer extends base.SyRPCBase {
         String(hash_id),
         new Buffer(JSON.stringify({ result_id, data })),
         {
-          contentType: consts.MSG_TYPE,
+          contentType: MSG_TYPE,
           contentEncoding: this.encoding
         }
       )

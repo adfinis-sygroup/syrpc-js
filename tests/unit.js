@@ -1,6 +1,6 @@
 var assert = require("assert")
 var syrpc  = require("../main")
-var amqp   = require('amqplib');
+var amqp   = require('amqplib')
 
 describe('Array', function() {
   describe('#indexOf()', function () {

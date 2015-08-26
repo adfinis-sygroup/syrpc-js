@@ -1,7 +1,8 @@
-var assert = require('assert')
-var server = require('./server')
-var client = require('./client')
-var debug  = require('debug')('syrpc')
+import assert from 'assert'
+import SyRPCServer from './server'
+import SyRPCClient from './client'
+
+const debug = require('debug')('syrpc')
 
 function getSettings() {
   return {
@@ -31,7 +32,7 @@ function runForForever(rpcServer) {
 
 export function runServer(forever = false) {
   let settings = getSettings()
-  let rpcServer = new server.SyRPCServer(settings)
+  let rpcServer = new SyRPCServer(settings)
   rpcServer.init().then(() => {
     if (forever) {
       runForForever(rpcServer)
@@ -48,7 +49,7 @@ export function runServerForever() {
 
 export function runClient() {
   let settings = getSettings()
-  let rpcClient = new client.SyRPCClient(settings)
+  let rpcClient = new SyRPCClient(settings)
   let type = 'echo'
   let data = [{'foo': 'bar'}, {'baz': 9001}]
   rpcClient.init().then(() => {

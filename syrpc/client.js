@@ -1,10 +1,10 @@
-var consts = require('./consts.js')
-var base   = require('./base.js')
-var uuid   = require('node-uuid')
+import SyRPCBase from './base.js'
+import uuid from 'node-uuid'
+import { MSG_TYPE } from './consts.js'
 
-var debug = require('debug')('syrpc')
+const debug = require('debug')('syrpc')
 
-export class SyRPCClient extends base.SyRPCBase {
+export default class SyRPCClient extends SyRPCBase {
 
   /**
    * Creates the SyRPC client using the following settings:
@@ -99,7 +99,7 @@ export class SyRPCClient extends base.SyRPCBase {
       this.request,
       new Buffer(JSON.stringify({ result_id, type, data })),
       {
-        contentType: consts.MSG_TYPE,
+        contentType: MSG_TYPE,
         contentEncoding: this.encoding
       }
     )

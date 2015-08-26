@@ -1,8 +1,16 @@
-var siphash = require('siphash')
-var amqp    = require('amqplib')
-var consts  = require('./consts')
+import siphash from 'siphash'
+import amqp    from 'amqplib'
 
-export class SyRPCBase {
+import {
+  VIRTUALHOST,
+  TTL,
+  MSG_TTL,
+  NUM_QUEUES,
+  HASH,
+  ENCODING
+} from './consts'
+
+export default class SyRPCBase {
   /**
    * Creates the SyRPC object using the following settings:
    *
@@ -35,7 +43,7 @@ export class SyRPCBase {
       this.virtualhost = settings.amq_virtualhost
     }
     else {
-      this.virtualhost = consts.VIRTUALHOST
+      this.virtualhost = VIRTUALHOST
     }
     if ('amq_user' in settings) {
       this.user = settings.amq_user
@@ -59,23 +67,23 @@ export class SyRPCBase {
       this.ttl = settings.amq_ttl
     }
     else {
-      this.ttl = consts.TTL
+      this.ttl = TTL
     }
     if ('amq_msg_ttl' in settings) {
       this.msg_ttl = settings.amq_msg_ttl
     }
     else {
-      this.msg_ttl = consts.MSG_TTL
+      this.msg_ttl = MSG_TTL
     }
     if ('amq_num_queues' in settings) {
       this.num_queues = settings.amq_num_queues
     }
     else {
-      this.num_queues = consts.NUM_QUEUES
+      this.num_queues = NUM_QUEUES
     }
-    this.key = siphash.string16_to_key(consts.HASH)
+    this.key = siphash.string16_to_key(HASH)
     this.result_queues = {}
-    this.encoding = consts.ENCODING
+    this.encoding = ENCODING
     this.connection = null
     this.channel = null
     this.request = null

@@ -1,9 +1,10 @@
-var server = require("./lib/server.js")
-var client = require("./lib/client.js")
-var runner = require("./lib/runner.js")
+var SyRPCServer = require('./lib/server.js')
+var SyRPCClient = require('./lib/client.js')
+var runner      = require('./lib/runner.js')
+
 module.exports = {
-  SyRPCServer:      server.SyRPCServer,
-  SyRPCClient:      client.SyRPCClient,
+  SyRPCServer:      SyRPCServer,
+  SyRPCClient:      SyRPCClient,
   runServer:        runner.runServer,
   runServerForever: runner.runServerForever,
   runClient:        runner.runClient
