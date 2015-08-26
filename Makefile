@@ -18,7 +18,7 @@ test: all
 	rm -rf coverage
 	$(BIN)/istanbul cover -x lib/runner.js $(BIN)/_mocha tests/*.js
 	$(BIN)/istanbul report text
-	$(BIN)/istanbul check-coverage --lines 95 --functions 95 --statements 83
+	$(BIN)/istanbul check-coverage --lines 95 --functions 95 --statements 97 --branches 95
 
 lib:
 	mkdir -p lib
