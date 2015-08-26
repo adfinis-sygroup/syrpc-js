@@ -1,4 +1,4 @@
-var assert = require("assert")
+var assert = require('assert')
 var server = require('./server')
 var client = require('./client')
 var debug  = require('debug')('syrpc')
@@ -9,7 +9,7 @@ function getSettings() {
     'amq_virtualhost': '/',
     'amq_host':        'localhost',
     'amq_user':        'guest',
-    'amq_password':    'guest',
+    'amq_password':    'guest'
   }
 }
 
@@ -29,7 +29,7 @@ function runForForever(rpcServer) {
   })
 }
 
-export function runServer(forever=false) {
+export function runServer(forever = false) {
   var settings = getSettings()
   var rpcServer = new server.SyRPCServer(settings)
   rpcServer.init().then(() => {

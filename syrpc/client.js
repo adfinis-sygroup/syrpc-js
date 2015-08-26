@@ -1,8 +1,8 @@
-var consts = require("./consts.js")
-var base = require("./base.js")
-var uuid = require('node-uuid');
+var consts = require('./consts.js')
+var base = require('./base.js')
+var uuid = require('node-uuid')
 
-var debug = require('debug')('syrpc');
+var debug = require('debug')('syrpc')
 
 export class SyRPCClient extends base.SyRPCBase {
 
@@ -29,30 +29,34 @@ export class SyRPCClient extends base.SyRPCBase {
    * - amq_num_queues  (optional) Number of queue (default 64)
    *
    * @constructor
-   * @param {settings} Settings object with fields as above
+   * @param {Object} settings object with fields as above
    */
   constructor(settings) {
     super(settings)
   }
+
   /**
    * Wait for a result. Blocks unit a result arrives or the
    * timeout has expired.
    *
    * @param {result_d} Get the result for this result_id
    * @param {timeout} Timeout after which getResult will reject the promise
+   * @return {Promise}
    */
   getResult(result_id, timeout=null) {
     return new Promise((resolve, reject) => {
-      var tag = null
-      var hash_id = this.getHash(result_id)
+      let hash_id = this.getHash(result_id)
+
       this.assertResultQueue(hash_id).then(result_queue => {
-        if (timeout !==null) {
+        if (timeout !== null) {
           setTimeout(() => {
             debug(`Client: Timeout on ${result_queue}`)
-            reject(new Error("Timeout expired"))
+            reject(new Error('Timeout expired'))
           }, timeout)
         }
+
         debug(`Client: Listening for result ${result_id} on ${result_queue}`)
+
         this.channel.consume(result_queue, msg => {
           var res = JSON.parse(msg.content)
           debug(`Client: Got result ${res.result_id} on ${result_queue} `)
@@ -62,15 +66,16 @@ export class SyRPCClient extends base.SyRPCBase {
             this.channel.ack(msg)
             debug(`Client: Canceling consumer ${msg.fields.consumerTag}`)
             this.channel.cancel(msg.fields.consumerTag).catch(reject)
-          } else {
+          }
+          else {
             this.channel.reject(msg)
           }
         }).then(ret => {
           debug(`Client: Created consumer ${ret.consumerTag}`)
           if (timeout !== null) {
             setTimeout(() => {
-                debug(`Client: Canceling consumer ${ret.consumerTag}`)
-                this.channel.cancel(ret.consumerTag).catch(reject)
+              debug(`Client: Canceling consumer ${ret.consumerTag}`)
+              this.channel.cancel(ret.consumerTag).catch(reject)
             }, timeout)
           }
         }).catch(reject)
@@ -84,6 +89,7 @@ export class SyRPCClient extends base.SyRPCBase {
    * @param {type} Type of the request represents the service/method/function
    *               that should be called.
    * @param {data} Data sent to the server.
+   * @return {string}
    */
   putRequest(type, data) {
     var result_id = uuid.v4()
@@ -98,7 +104,7 @@ export class SyRPCClient extends base.SyRPCBase {
       })),
       {
         contentType: consts.MSG_TYPE,
-        contentEncoding: this.encoding,
+        contentEncoding: this.encoding
       }
     )
     return result_id

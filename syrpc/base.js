@@ -1,6 +1,6 @@
-var siphash = require("siphash")
-var amqp    = require('amqplib');
-var consts  = require("./consts")
+var siphash = require('siphash')
+var amqp    = require('amqplib')
+var consts  = require('./consts')
 
 export class SyRPCBase {
   /**
@@ -26,44 +26,51 @@ export class SyRPCBase {
    * - amq_num_queues  (optional) Number of queue (default 64)
    *
    * @constructor
-   * @param {settings} Settings object with fields as above
+   * @param {Object} settings object with fields as above
    */
   constructor(settings) {
     this.app_name = settings.app_name
     this.host = settings.amq_host
     if ('amq_virtualhost' in settings) {
       this.virtualhost = settings.amq_virtualhost
-    } else {
+    }
+    else {
       this.virtualhost = consts.VIRTUALHOST
     }
     if ('amq_user' in settings) {
       this.user = settings.amq_user
-    } else {
-      this.user = "guest"
+    }
+    else {
+      this.user = 'guest'
     }
     if ('amq_password' in settings) {
       this.password = settings.amq_password
-    } else {
-      this.password = "guest"
+    }
+    else {
+      this.password = 'guest'
     }
     if ('amq_transport' in settings) {
       this.transport = settings.amq_transport
-    } else {
+    }
+    else {
       this.transport = null
     }
     if ('amq_ttl' in settings) {
       this.ttl = settings.amq_ttl
-    } else {
+    }
+    else {
       this.ttl = consts.TTL
     }
     if ('amq_msg_ttl' in settings) {
       this.msg_ttl = settings.amq_msg_ttl
-    } else {
+    }
+    else {
       this.msg_ttl = consts.MSG_TTL
     }
     if ('amq_num_queues' in settings) {
       this.num_queues = settings.amq_num_queues
-    } else {
+    }
+    else {
       this.num_queues = consts.NUM_QUEUES
     }
     this.key = siphash.string16_to_key(consts.HASH)
@@ -82,14 +89,14 @@ export class SyRPCBase {
         this.channel = ch
 
         this.request = `${this.app_name}_request`
-        var req = this.request
+        let req = this.request
         this.result_exchange = `${this.app_name}_result_exchange`
         return Promise.all([
           ch.assertExchange(req),
           ch.assertQueue(req),
           ch.bindQueue(req, req, req),
           ch.assertExchange(this.result_exchange)
-        ]) 
+        ])
       })
   }
 
@@ -98,8 +105,9 @@ export class SyRPCBase {
       return new Promise((resolve, reject) => {
         resolve(this.result_queues[index])
       })
-    } else {
-      var queue = `${this.app_name}_result_queue_${index}`
+    }
+    else {
+      let queue = `${this.app_name}_result_queue_${index}`
       return Promise.all([
         this.channel.assertQueue(queue, {
           messageTtl: this.msg_ttl * 1000,

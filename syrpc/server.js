@@ -1,6 +1,6 @@
-var consts = require("./consts.js")
-var base = require("./base.js")
-var debug = require('debug')('syrpc');
+var consts = require('./consts.js')
+var base   = require('./base.js')
+var debug  = require('debug')('syrpc')
 
 export class SyRPCServer extends base.SyRPCBase {
   /**
@@ -26,24 +26,26 @@ export class SyRPCServer extends base.SyRPCBase {
    * - amq_num_queues  (optional) Number of queue (default 64)
    *
    * @constructor
-   * @param {settings} Settings object with fields as above
+   * @param {Object} settings object with fields as above
    */
   constructor(settings) {
     super(settings)
   }
+
   /**
    * Wait for a request. Blocks until a request arrives or
    * timeout has expired. If no request has arrived when timeout
    * is expired getRequest will reject.
    *
    * @param {timeout} Timeout after which get_request will reject the promise
+   * @return {Promise}
    */
-  getRequest(timeout=null) {
+  getRequest(timeout = null) {
     return new Promise((resolve, reject) => {
       if (timeout !== null) {
         setTimeout(() => {
           debug(`Server: Timeout on ${this.request}`)
-          reject(new Error("Timeout expired"))
+          reject(new Error('Timeout expired'))
         }, timeout)
       }
       debug(`Server: Listen for request on ${this.request}`)
@@ -70,6 +72,7 @@ export class SyRPCServer extends base.SyRPCBase {
    *
    * @param {result_id} The result id received with getRequest
    * @param {data} Result to send to the client
+   * @return {Promise}
    */
   putResult(result_id, data) {
     var hash_id = this.getHash(result_id)
@@ -84,7 +87,7 @@ export class SyRPCServer extends base.SyRPCBase {
         })),
         {
           contentType: consts.MSG_TYPE,
-          contentEncoding: this.encoding,
+          contentEncoding: this.encoding
         }
       )
     })
