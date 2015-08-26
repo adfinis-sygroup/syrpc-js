@@ -1,5 +1,6 @@
 import siphash from 'siphash'
 import amqp    from 'amqplib'
+import merge   from 'lodash.merge'
 
 import {
   VIRTUALHOST,
@@ -10,7 +11,18 @@ import {
   ENCODING
 } from './consts'
 
+const defaults = {
+  virtualhost: VIRTUALHOST,
+  user:        'guest',
+  password:    'guest',
+  transport:   null,
+  ttl:         TTL,
+  msg_ttl:     MSG_TTL,
+  num_queues:  NUM_QUEUES
+}
+
 export default class SyRPCBase {
+
   /**
    * Creates the SyRPC object using the following settings:
    *
@@ -39,48 +51,17 @@ export default class SyRPCBase {
   constructor(settings) {
     this.app_name = settings.app_name
     this.host = settings.amq_host
-    if ('amq_virtualhost' in settings) {
-      this.virtualhost = settings.amq_virtualhost
-    }
-    else {
-      this.virtualhost = VIRTUALHOST
-    }
-    if ('amq_user' in settings) {
-      this.user = settings.amq_user
-    }
-    else {
-      this.user = 'guest'
-    }
-    if ('amq_password' in settings) {
-      this.password = settings.amq_password
-    }
-    else {
-      this.password = 'guest'
-    }
-    if ('amq_transport' in settings) {
-      this.transport = settings.amq_transport
-    }
-    else {
-      this.transport = null
-    }
-    if ('amq_ttl' in settings) {
-      this.ttl = settings.amq_ttl
-    }
-    else {
-      this.ttl = TTL
-    }
-    if ('amq_msg_ttl' in settings) {
-      this.msg_ttl = settings.amq_msg_ttl
-    }
-    else {
-      this.msg_ttl = MSG_TTL
-    }
-    if ('amq_num_queues' in settings) {
-      this.num_queues = settings.amq_num_queues
-    }
-    else {
-      this.num_queues = NUM_QUEUES
-    }
+
+    merge(this, defaults, {
+      virtualhost: settings.amq_virtualhost,
+      user:        settings.amq_user,
+      password:    settings.amq_password,
+      transport:   settings.amq_transport,
+      ttl:         settings.amq_ttl,
+      msg_ttl:     settings.amq_msg_ttl,
+      num_queues:  settings.amq_num_queues
+    })
+
     this.key = siphash.string16_to_key(HASH)
     this.result_queues = {}
     this.encoding = ENCODING
