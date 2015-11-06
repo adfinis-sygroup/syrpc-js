@@ -8,7 +8,8 @@ import {
   MSG_TTL,
   NUM_QUEUES,
   HASH,
-  ENCODING
+  ENCODING,
+  TIMEOUT
 } from './consts'
 
 const defaults = {
@@ -18,7 +19,8 @@ const defaults = {
   transport:   null,
   ttl:         TTL,
   msg_ttl:     MSG_TTL,
-  num_queues:  NUM_QUEUES
+  num_queues:  NUM_QUEUES,
+  timeout:     TIMEOUT
 }
 
 export default class SyRPCBase {
@@ -45,6 +47,8 @@ export default class SyRPCBase {
    *
    * - amq_num_queues  (optional) Number of queue (default 64)
    *
+   * - timeout         (optional) Timeout in seconds
+   *
    * @constructor
    * @param {Object} settings object with fields as above
    */
@@ -59,7 +63,8 @@ export default class SyRPCBase {
       transport:   settings.amq_transport,
       ttl:         settings.amq_ttl,
       msg_ttl:     settings.amq_msg_ttl,
-      num_queues:  settings.amq_num_queues
+      num_queues:  settings.amq_num_queues,
+      timeout:     settings.timeout
     })
 
     this.key = siphash.string16_to_key(HASH)

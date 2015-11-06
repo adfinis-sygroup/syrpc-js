@@ -7,5 +7,6 @@ export default {
   NUM_QUEUES           : 64,
   MSG_TYPE             : 'application/json',
   HASH                 : 'EdaeYa6eesh3ahSh',
-  ENCODING             : 'utf-8'
+  ENCODING             : 'utf-8',
+  TIMEOUT              : null
 }

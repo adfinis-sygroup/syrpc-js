@@ -28,6 +28,8 @@ export default class SyRPCClient extends SyRPCBase {
    *
    * - amq_num_queues  (optional) Number of queue (default 64)
    *
+   * - timeout         (optional) Timeout in seconds
+   *
    * @constructor
    * @param {Object} settings object with fields as above
    */
@@ -39,11 +41,11 @@ export default class SyRPCClient extends SyRPCBase {
    * Wait for a result. Blocks unit a result arrives or the
    * timeout has expired.
    *
-   * @param {result_d} Get the result for this result_id
+   * @param {result_id} Get the result for this result_id
    * @param {timeout} Timeout after which getResult will reject the promise
    * @return {Promise}
    */
-  getResult(result_id, timeout=null) {
+  getResult(result_id, timeout = this.timeout) {
     return new Promise((resolve, reject) => {
       let hash_id = this.getHash(result_id)
 
