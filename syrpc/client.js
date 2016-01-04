@@ -62,6 +62,11 @@ export default class SyRPCClient extends SyRPCBase {
         this.channel.consume(result_queue, msg => {
           let res = JSON.parse(msg.content)
           debug(`Client: Got result ${res.result_id} on ${result_queue} `)
+          if (res.exception) {
+            reject(res.exception)
+
+            return
+          }
           if (res.result_id == result_id) {
             debug(`Client: Verified result on ${result_queue}`)
             resolve(res)
