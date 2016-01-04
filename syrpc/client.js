@@ -63,7 +63,7 @@ export default class SyRPCClient extends SyRPCBase {
           let res = JSON.parse(msg.content)
           debug(`Client: Got result ${res.result_id} on ${result_queue} `)
           if (res.data.exception) {
-            reject(res.data.exception)
+            reject(new Error(res.data.exception))
 
             return
           }
