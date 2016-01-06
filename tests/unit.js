@@ -122,6 +122,34 @@ describe('Basics', function() {
         done(e)
       })
     })
+    it('should do a whole reject when we have an exception', function (done) {
+      var result_id = null
+      var server = new syrpc.SyRPCServer({
+        app_name        : 'syrpc',
+        amq_host        : 'localhost'
+      })
+      var client = new syrpc.SyRPCClient({
+        app_name        : 'syrpc',
+        amq_host        : 'localhost'
+      })
+      client.init().then(function() {
+        result_id = client.putRequest('test', { val: 3 })
+      })
+      server.init().then(function() {
+        return server.getRequest()
+      }).then(function(msg) {
+        assert.equal(msg.type, 'test')
+        assert.equal(msg.data.val, 3)
+        assert.equal(msg.result_id, result_id)
+        server.putResult(msg.result_id, { exception: "oh my" })
+        return client.getResult(result_id)
+      }).then(function(msg) {
+        done(msg)
+      }).catch(function(e) {
+        assert.equal(e, "oh my")
+        done()
+      })
+    })
   })
   describe('Check hash function', function () {
     it('should match those of the python and php implementation', function () {
